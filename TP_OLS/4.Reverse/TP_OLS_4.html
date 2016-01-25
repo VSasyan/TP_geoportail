@@ -30,10 +30,10 @@
 				toponymLayer = new Geoportal.Layer.OpenLS.Core.LocationUtilityService("StreetAddress:OPENLS;ReverseGeocode", {});
 
 				//2) OK Ajout de cette couche à la carte
-				viewer.getMap().addLayer(toponymLayer);
+				//viewer.getMap().addLayer(toponymLayer);
 
 				// 4) Création d'une instance du nouveau contrôle créé myctrl qui prend entrée la couche toponymLayer
-				var control = new Geoportal.Control.LocationUtilityService.Geocode(toponymLayer, {
+				var control = new Geoportal.Control.LocationUtilityService.ReverseGeocode(toponymLayer, {
 					countryCode : 'PositionofInterest'
 				});
 
