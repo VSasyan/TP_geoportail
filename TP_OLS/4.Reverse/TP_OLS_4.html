@@ -4,22 +4,22 @@
 		<title>API Geoportail - votre carte personnelle</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<style type="text/css">
-	    <!--
+		<!--
 		div#viewerDiv {
-			width:800px;
-			height:600px;
+			width : 800px;
+			height : 600px;
 		}
 		-->
 		</style>
 	</head>
 	<body>
-	    <h1 id="example_title">TP OLS4</h1>
+		<h1 id="example_title">TP OLS4</h1>
 		<div id="viewerDiv"></div>
 		
 		<script type="text/javascript">
 		
-			var iv=null;
-			var viewer=null;
+			var iv = null;
+			var viewer = null;
 			
 			function initMap(){
 
@@ -47,7 +47,7 @@
 			
 		
 			//au chargement de la page, cette fonction est déclenchée
-			window.onload= function() {    	
+			window.onload = function() {		
 			
 				//initialisation du loader
 				//La méthode Geoportal.load va retourner un objet interfaceViewer
@@ -57,8 +57,8 @@
 					// clé API
 					['tw26cwmjmexw6dm6ey2zaac9'],
 					{// centre de la carte
-				        lon:2.4234433385442236,
-				        lat:48.84476433906394
+						lon : 2.4234433385442236,
+						lat : 48.84476433906394
 					},
 					//zoom
 					16,
@@ -67,8 +67,8 @@
 						//fonction déclenchée une fois le visualisateur initialisé
 						onView : initMap,
 						//type du visualisateur voulu (par défaut Standard)
-						viewerClass:Geoportal.Viewer.Default,
-						proxyUrl:"../../proxy/proxyENSG.php?url="
+						viewerClass : Geoportal.Viewer.Default,
+						proxyUrl : "../../proxy/proxyENSG.php?url="
 					}
 				);
 			};

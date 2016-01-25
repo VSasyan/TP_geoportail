@@ -20,7 +20,7 @@
 		
 		<script type="text/javascript">
 		
-			var viewer=null;
+			var viewer = null;
 			
 			function initMap(){
 
@@ -88,9 +88,8 @@
 			// 3) OK Fonction myGeocode qui sera executée lors du clic sur le bouton rechercher
 			
 			function myGeocode() {
-			
 				//a) Récupération du texte saisi dans l'input				
-				var geonameTxt=document.getElementById("inputToponym").value;
+				var geonameTxt = document.getElementById("inputToponym").value;
 				
 				// b) Application de la méthode GEOCODE à la couche toponymLayer
 				toponymLayer.GEOCODE(
@@ -112,7 +111,7 @@
 			  	
 			    //b) Ajout des features à la couche toponymLayer
 				// Deselection :
-				for (n=0; n < toponymLayer.selectCntrl.layer.selectedFeatures.length; n++) {
+				for (n = 0; n < toponymLayer.selectCntrl.layer.selectedFeatures.length; n++) {
 					toponymLayer.selectCntrl.unselect(toponymLayer.selectCntrl.layer.selectedFeatures[n]);
 				}
 				toponymLayer.removeAllFeatures(); // suppr des anciennes features
@@ -160,8 +159,8 @@
 						//fonction déclenchée une fois le visualisateur initialisé
 						onView : initMap,
 						//type du visualisateur voulu (par défaut Standard)
-						viewerClass:Geoportal.Viewer.Default,
-						proxyUrl:"../../proxy/proxyENSG.php?url="
+						viewerClass : Geoportal.Viewer.Default,
+						proxyUrl : "../../proxy/proxyENSG.php?url="
 					}
 				);
 			};

@@ -18,8 +18,8 @@
 		
 		<script type="text/javascript">
 		
-			var iv=null;
-			var viewer=null;
+			var iv = null;
+			var viewer = null;
 			
 			function initMap(){
 
@@ -42,7 +42,7 @@
 			}
 			
 			//au chargement de la page, cette fonction est déclenchée
-			window.onload= function() {    	
+			window.onload = function() {    	
 			
 				//initialisation du loader
 				//La méthode Geoportal.load va retourner un objet interfaceViewer
@@ -52,8 +52,8 @@
 					// clé API
 					['tw26cwmjmexw6dm6ey2zaac9'],
 					{// centre de la carte
-				        lon:2.731525,
-				        lat:45.833333
+				        lon : 2.731525,
+				        lat : 45.833333
 					},
 					//zoom
 					null,
@@ -62,7 +62,7 @@
 						//fonction déclenchée une fois le visualisateur initialisé
 						onView : initMap,
 						//type du visualisateur voulu (par défaut Standard)
-						viewerClass:Geoportal.Viewer.Default
+						viewerClass : Geoportal.Viewer.Default
 					}
 				);
 			};

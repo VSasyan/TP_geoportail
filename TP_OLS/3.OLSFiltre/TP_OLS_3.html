@@ -18,8 +18,8 @@
 		
 		<script type="text/javascript">
 		
-			var iv=null;
-			var viewer=null;
+			var iv = null;
+			var viewer = null;
 			
 			function initMap(){
 
@@ -30,8 +30,8 @@
 				toponymLayer = new Geoportal.Layer.OpenLS.Core.LocationUtilityService(
 					"PositionOfInterest:OPENLS;Geocode",
 					{
-						formatOptions:{ version: "1.2"},
-						hover: true
+						formatOptions : { version: "1.2"},
+						hover : true
 					}
 				);
 			 	
@@ -41,7 +41,7 @@
 
 				// 3) Surcharge du controle Geoportal.Control.LocationUtilityService.GeoNames
 				var MyGeoNames = OpenLayers.Class( Geoportal.Control.LocationUtilityService.GeoNames, {
-					LUSSuccess: function(request) {					
+					LUSSuccess : function(request) {					
 
 						// a) Récupération du tableau des features résultant de la requête
 						var features = toponymLayer.queriedAddresses[0].features;
@@ -65,7 +65,7 @@
 						toponymLayer.queriedAddresses[0].features = filteredFeatures;
 
 						// d) héritage				
-						if (Geoportal.Control.LocationUtilityService.GeoNames.prototype.LUSSuccess.apply(this,arguments)===false) {
+						if (Geoportal.Control.LocationUtilityService.GeoNames.prototype.LUSSuccess.apply(this,arguments) === false) {
 							return false;
 						}
 
@@ -96,8 +96,8 @@
 					// clé API
 					['tw26cwmjmexw6dm6ey2zaac9'],
 					{// centre de la carte
-						lon:2.731525,
-						lat:45.833333
+						lon : 2.731525,
+						lat : 45.833333
 					},
 					//zoom
 					null,
@@ -106,8 +106,8 @@
 						//fonction déclenchée une fois le visualisateur initialisé
 						onView : initMap,
 						//type du visualisateur voulu (par défaut Standard)
-						viewerClass:Geoportal.Viewer.Default,
-						proxyUrl:"../../proxy/proxyENSG.php?url="
+						viewerClass : Geoportal.Viewer.Default,
+						proxyUrl : "../../proxy/proxyENSG.php?url="
 					}
 				);
 			};
