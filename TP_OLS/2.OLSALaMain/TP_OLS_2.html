@@ -24,56 +24,119 @@
 			
 			function initMap(){
 
-				// Récupération du visualiseur à partir de l'interfaceViewer
+				// OK Récupération du visualiseur à partir de l'interfaceViewer
 				viewer=iv.getViewer();	
 
-				// 5) Création des styles d'affichage des résultats
 				
-				// 1) Création de la couche OpenLS
+				// OK 5) Création des styles d'affichage des résultats 
+				
+				var monStyleMap = new OpenLayers.StyleMap({
+					"default": new OpenLayers.Style(
+						{
+							pointRadius : "${getRadius}",
+							fillColor : "black"
+						},
+						{
+							context : {
+								getRadius: function(feat) {
+									return feat.attributes.geocodeMatchCode.accuracy*10 ;
+								}
+							}
+						}
+					),
+					"select": new OpenLayers.Style(
+						{
+							pointRadius : "${getRadius}",
+							fillColor : "red"
+						},
+						{
+							context : {
+								getRadius: function(feat) {
+									return feat.attributes.geocodeMatchCode.accuracy*10 ;
+								}
+							}
+						}
+					)
+				});
+				
+				
+				//1) OK Création de la couche OpenLS
+				toponymLayer = new Geoportal.Layer.OpenLS.Core.LocationUtilityService(
+					"PositionOfInterest:OPENLS;Geocode",
+					{
+						formatOptions:{ version: "1.2"},
+						styleMap: monStyleMap
+					}
+				);
+			 	
 
-				// 2)Ajout de cette couche à la carte
-
+				//2) OK Ajout de cette couche à la carte
+				viewer.getMap().addLayer(toponymLayer);
 			}
 
-			// 6) Gérer la sélection du ième feature
+			// 6) OK Gérer la sélection du ième feature
             function selectResult(i) {
-			
+				// Deselection :
+				for (n=0; n < toponymLayer.selectCntrl.layer.selectedFeatures.length; n++) {
+					toponymLayer.selectCntrl.unselect(toponymLayer.selectCntrl.layer.selectedFeatures[n]);
+				}
+				// Selection !!!
+				toponymLayer.selectCntrl.select(toponymLayer.selectCntrl.layer.features[i]);
 			}
 
 
-			// 3) Fonction myGeocode qui sera executée lors du clic sur le bouton rechercher
+			// 3) OK Fonction myGeocode qui sera executée lors du clic sur le bouton rechercher
 			
 			function myGeocode() {
 			
-				//a) Récupération du texte saisi dans l'input
+				//a) Récupération du texte saisi dans l'input				
+				var geonameTxt=document.getElementById("inputToponym").value;
 				
 				// b) Application de la méthode GEOCODE à la couche toponymLayer
-
+				toponymLayer.GEOCODE(
+					[new Geoportal.OLS.Address("PositionOfInterest", {name:geonameTxt})],
+					{
+						onSuccess: gnSuccess, // fonction de callback
+						onFailure: gnFailure, // fonction de callback
+						scopeOn: {} // contexte
+					}
+				);
+				
 			}
 
 			// 4) fonction appelée lors de l'execution de la requête avec succès
 			function gnSuccess() {
 			
 				// a) Récupération des features retournées lors de la recherche de lieu
+			  	var features = toponymLayer.queriedAddresses[0].features;
 			  	
-			        //b) Ajout des features à la couche toponymLayer		  
+			    //b) Ajout des features à la couche toponymLayer
+				// Deselection :
+				for (n=0; n < toponymLayer.selectCntrl.layer.selectedFeatures.length; n++) {
+					toponymLayer.selectCntrl.unselect(toponymLayer.selectCntrl.layer.selectedFeatures[n]);
+				}
+				toponymLayer.removeAllFeatures(); // suppr des anciennes features
+				toponymLayer.addFeatures(features); // ajout
 				
 				// c) Affichage dans la console des features
+				console.log(features);
 				
 				// d) Traitement du résultat
-				/*
-				var newlist= document.getElementById("result");
 				
-				for (var i= 0, ilen= features.length; i<ilen; i++) {
-			  
+				var newlist = document.getElementById("result");
+				newlist.innerHTML = '';
+				
+				for (var i= 0, ilen = features.length; i<ilen; i++) {
 					var newoption = document.createElement('option');
-					newoption.text = 'Texte à remplir';
+					newoption.text = features[i].attributes.address;
 					newlist.add(newoption);
-
-			  }
+				}
 			  
-			  document.getElementById('result').style.display='block';*/
-
+				document.getElementById('result').style.display = 'block';	
+			}
+			
+			function gnFailure() {
+				alert('Erreur !');
 			}
 			
 			//au chargement de la page, cette fonction est déclenchée
@@ -85,7 +148,7 @@
 					// identifiant du conteneur de la carte
 					'viewerDiv',
 					// clé API
-					['VOTRE_CLEF'],
+					['tw26cwmjmexw6dm6ey2zaac9'],
 					{// centre de la carte
 				        lon:2.731525,
 				        lat:45.833333

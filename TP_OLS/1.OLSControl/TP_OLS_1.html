@@ -27,18 +27,18 @@
 				viewer = iv.getViewer();	
 				
 				// 1) Création de la couche openLS 
-				
-				Geoportal.Layer.OpenLS.Core.LocationUtilityService
+				var locationService = new Geoportal.Layer.OpenLS.Core.LocationUtilityService("StreetAddress:OPENLS;Geocode", {
+						requestOptions : new Geoportal.Format.XLS({'version' : "1.2"})
+				});
 
 				// 2) Création du contrôle de géocodage avec comme paramètre la couche toponymLayer
-
+				var geocode = new Geoportal.Control.LocationUtilityService.Geocode(locationService);
 				
-				// 3) Ajout du contrôle à la carte		                  
-
+				// 3) Ajout du contrôle à la carte
+				viewer.getMap().addControl(geocode);
 				
 				// 4) Activation du contrôle
-				
-
+				geocode.activate();
 			}
 			
 			//au chargement de la page, cette fonction est déclenchée
@@ -50,7 +50,7 @@
 					// identifiant du conteneur de la carte
 					'viewerDiv',
 					// clé API
-					['VOTRE_CLEF'],
+					['tw26cwmjmexw6dm6ey2zaac9'],
 					{// centre de la carte
 				        lon:2.731525,
 				        lat:45.833333

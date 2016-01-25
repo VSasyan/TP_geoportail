@@ -4,7 +4,7 @@
 		<title>API Geoportail - votre carte personnelle</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<style type="text/css">
-	    <!--
+		<!--
 		div#viewerDiv {
 			width:800px;
 			height:600px;
@@ -13,7 +13,7 @@
 		</style>
 	</head>
 	<body>
-	    <h1 id="example_title">TP OLS3</h1>
+		<h1 id="example_title">TP OLS3</h1>
 		<div id="viewerDiv"></div>
 		
 		<script type="text/javascript">
@@ -24,57 +24,69 @@
 			function initMap(){
 
 				// Récupération du visualiseur à partir de l'interfaceViewer
-				viewer=iv.getViewer();
+				viewer = iv.getViewer();
 				
-				// 1) Création d'une couche OpenLs
-		
-				// 2) ajout de cette couche à la carte
+				//1) OK Création de la couche OpenLS
+				toponymLayer = new Geoportal.Layer.OpenLS.Core.LocationUtilityService(
+					"PositionOfInterest:OPENLS;Geocode",
+					{
+						formatOptions:{ version: "1.2"},
+						hover: true
+					}
+				);
+			 	
+
+				//2) OK Ajout de cette couche à la carte
+				viewer.getMap().addLayer(toponymLayer);
 
 				// 3) Surcharge du controle Geoportal.Control.LocationUtilityService.GeoNames
-				
-				var MyGeoNames= OpenLayers.Class( Geoportal.Control.LocationUtilityService.GeoNames, {
-				  LUSSuccess: function(request) {					
-				    
-				    // a) Récupération du tableau des features résultant de la requête
-				    
-				    // b) Création d'un nouveau tableau filtré qui va remplacer le tableau features
-				   
-				    /*var filteredFeatures= new Array()  ;
-                                    for (var i= 0, ilen= features.length; i<ilen; i++) {
-                                      var f= features[i];
-                                      console.log(f.attributes.address);
-                                      for (var j = 0; j< f.attributes.address.places.length; j++){
-                                        if (f.attributes.address.places[j].classification=="Nature"){
-                                                if (f.attributes.address.places[j].name=="Commune"){
-                                                        filteredFeatures.push(f.clone()) ;
-                                                        break;
-                                                }
-                                        }
-                                      }
-                                    }*/
-				    
-				    // c) Remplacement du tableau features de queriedAddresses par filteredFeatures
+				var MyGeoNames = OpenLayers.Class( Geoportal.Control.LocationUtilityService.GeoNames, {
+					LUSSuccess: function(request) {					
 
-                                    // d) héritage				
-				    /*if (Geoportal.Control.LocationUtilityService.GeoNames.prototype.LUSSuccess.apply(this,arguments)===false) {
-				    	return false;
-				    }*/
-				    
-				  }
-				}) ;
+						// a) Récupération du tableau des features résultant de la requête
+						var features = toponymLayer.queriedAddresses[0].features;
+
+						// b) Création d'un nouveau tableau filtré qui va remplacer le tableau features
+						var filteredFeatures = new Array();
+						for (var i = 0; i < features.length; i++) {
+							var f = features[i];
+							console.log(f.attributes.address);
+							for (var j = 0; j < f.attributes.address.places.length; j++){
+								if (f.attributes.address.places[j].classification == "Nature"){
+									if (f.attributes.address.places[j].name == "Commune"){
+										filteredFeatures.push(f.clone()) ;
+										break;
+									}
+								}
+							}
+						}
+
+						// c) Remplacement du tableau features de queriedAddresses par filteredFeatures
+						toponymLayer.queriedAddresses[0].features = filteredFeatures;
+
+						// d) héritage				
+						if (Geoportal.Control.LocationUtilityService.GeoNames.prototype.LUSSuccess.apply(this,arguments)===false) {
+							return false;
+						}
+
+					}
+				});
 
 				// 4) Création d'une instance du nouveau contrôle créé myctrl qui prend entrée la couche toponymLayer
+				var control = new MyGeoNames(toponymLayer, {});
 
-				// 5) Ajout de ce contrôle à la carte
-
+				// 5) Ajout du contrôle à la carte
+				viewer.getMap().addControl(control);
+				
 				// 6) Activation du contrôle
+				control.activate();
 
 
 			}
 
 			
 			//au chargement de la page, cette fonction est déclenchée
-			window.onload= function() {    	
+			window.onload= function() {		
 			
 				//initialisation du loader
 				//La méthode Geoportal.load va retourner un objet interfaceViewer
@@ -82,10 +94,10 @@
 					// identifiant du conteneur de la carte
 					'viewerDiv',
 					// clé API
-					['VOTRE_CLEF'],
+					['tw26cwmjmexw6dm6ey2zaac9'],
 					{// centre de la carte
-				        lon:2.731525,
-				        lat:45.833333
+						lon:2.731525,
+						lat:45.833333
 					},
 					//zoom
 					null,

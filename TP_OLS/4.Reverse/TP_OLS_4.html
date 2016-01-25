@@ -23,6 +23,25 @@
 			
 			function initMap(){
 
+				// Récupération du visualiseur à partir de l'interfaceViewer
+				viewer = iv.getViewer();
+				
+				//1) OK Création de la couche OpenLS
+				toponymLayer = new Geoportal.Layer.OpenLS.Core.LocationUtilityService("StreetAddress:OPENLS;ReverseGeocode", {});
+
+				//2) OK Ajout de cette couche à la carte
+				viewer.getMap().addLayer(toponymLayer);
+
+				// 4) Création d'une instance du nouveau contrôle créé myctrl qui prend entrée la couche toponymLayer
+				var control = new Geoportal.Control.LocationUtilityService.Geocode(toponymLayer, {
+					countryCode : 'PositionofInterest'
+				});
+
+				// 5) Ajout du contrôle à la carte
+				viewer.getMap().addControl(control);
+				
+				// 6) Activation du contrôle
+				control.activate();
 			}
 			
 			
@@ -36,7 +55,7 @@
 					// identifiant du conteneur de la carte
 					'viewerDiv',
 					// clé API
-					['VOTRE_CLE'],
+					['tw26cwmjmexw6dm6ey2zaac9'],
 					{// centre de la carte
 				        lon:2.4234433385442236,
 				        lat:48.84476433906394
@@ -49,12 +68,12 @@
 						onView : initMap,
 						//type du visualisateur voulu (par défaut Standard)
 						viewerClass:Geoportal.Viewer.Default,
-						//proxyUrl:"../../proxy/proxyENSG.php?url="
+						proxyUrl:"../../proxy/proxyENSG.php?url="
 					}
 				);
 			};
 
 		</script>		
-		<script type="text/javascript" src="http://depot.ign.fr/geoportail/api/develop/geoportail/api/js/2.1.0-SNAPSHOT/GeoportalExtended.js"></script>
+		<script type="text/javascript" src="http://api.ign.fr/geoportail/api/js/latest/GeoportalExtended.js"></script>
 	</body>
 </html>
