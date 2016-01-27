@@ -1,0 +1,37 @@
+html {
+	background-color: #EEE;
+	margin: 0;
+}
+
+body {margin: 0;}
+
+
+
+section {
+	background-color: #FFF;
+	width: 800px;
+	border-radius: 8px;
+	margin: auto;
+	padding: 40px;
+	padding-top: 20px;
+	margin-bottom: 40px;
+}
+
+* {font-family: 'Roboto', sans-serif;}
+#map-canvas {height: 600px; width:90%; margin: auto;}
+#result.no {display: none;}
+canvas {margin: auto;}
+
+#result #ajax {height: 600px; width:90%; margin: auto;}
+#result p.adresse {
+	font-weight: bold;
+	margin-bottom: 0;
+}
+#result p.ville {
+	font-style: italic;
+	margin-top: 0;
+}
+
+#ajax div {display: none;}
+#ajax div:first-child {display: block;}
+#ajax.all div {display: block;}
