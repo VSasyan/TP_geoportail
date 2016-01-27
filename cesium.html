@@ -21,33 +21,49 @@
 						tilingScheme: new Cesium.WebMercatorTilingScheme(),
 						tileMatrixLabels: ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19"]
 					}),
-					terrainProvider: new Cesium.CesiumTerrainProvider({
+					/*terrainProvider: new Cesium.CesiumTerrainProvider({
 						url : '//assets.agi.com/stk-terrain/world'
-					}),
-					baseLayerPicker : false
+					}),*/
+					//baseLayerPicker : false
 				});
-				var sphere = viewer.entities.add({
-					position : Cesium.Cartesian3.fromDegrees(2, 42, 1000),
+
+				var taille = 2;
+				var r = 3;
+				var repeat = new Cesium.CallbackProperty(function(time, result) {
+					result.x = r;
+					result.y = r;
+					return result;
+				}, false);
+				
+				/*var sphere1 = viewer.entities.add({
+					position : Cesium.Cartesian3.fromDegrees(2.587641749999989, 48.84106170000053, taille),
 					ellipsoid : {
-						radii : new Cesium.Cartesian3(10000, 10000, 10000),
+						radii : new Cesium.Cartesian3(taille, taille, taille),
+						material : videoElement
+					}
+				});*/
+
+				/*var sphere2 = viewer.entities.add({
+					position : Cesium.Cartesian3.fromDegrees(2.588641749999989, 48.84206170000053, taille),
+					ellipsoid : {
+						radii : new Cesium.Cartesian3(taille, taille, taille),
+						material : videoElement
+					}
+				});*/
+
+				var sphere3 = viewer.entities.add({
+					position : Cesium.Cartesian3.fromDegrees(2.587641749999989, 48.84186170000053, taille),
+					ellipsoid : {
+						radii : new Cesium.Cartesian3(taille, taille, taille),
 						material : videoElement
 					}
 				});
-				var isRepeating = true;
-				sphere.ellipsoid.material.repeat = new Cesium.CallbackProperty(function(time, result) {
-					if (!Cesium.defined(result)) {
-						result = new Cesium.Cartesian2();
-					}
-					if (isRepeating) {
-						result.x = 4;
-						result.y = 4;
-					} else {
-						result.x = 1;
-						result.y = 1;
-					}
-					return result;
-				}, false);
-				viewer.scene.globe.enableLighting = true;
+
+				//sphere1.ellipsoid.material.repeat = repeat;
+				//sphere2.ellipsoid.material.repeat = repeat;
+				sphere3.ellipsoid.material.repeat = repeat;
+
+				viewer.trackedEntity = sphere3;
 			}
 		</script>
 	</head>
